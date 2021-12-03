@@ -1,19 +1,24 @@
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 
 public class StringQuestions implements stringMethods{
     public static void main(String[] args) {
         stringMethods methods = new StringQuestions();
 //        System.out.println(methods.ReplaceCharactersWithItOccurence("Tarun Dhiman"));
 //        System.out.println(methods.convertToRoman(1994));
-        ArrayList<String> s = new ArrayList<>();
-        s.add("vml");
-        s.add("uds");
-        s.add("aih");
-        s.add("du");
-        s.add("vml");
-        s.add("uds");
-        System.out.println(methods.shortestDistanceBetweenStrings(s,"vml","uds"));
+//        ArrayList<String> s = new ArrayList<>();
+//        s.add("vml");
+//        s.add("uds");
+//        s.add("aih");
+//        s.add("du");
+//        s.add("vml");
+//        s.add("uds");
+//        System.out.println(methods.shortestDistanceBetweenStrings(s,"vml","uds"));
+//        methods.isDivisibleby7("8955795758");
+//        System.out.println(methods.encryptString("aaaaaaaaaaa"));
+//        System.out.println(methods.areIsomorphicStrings("rfkqyuqf","jkxyqvnr"));
+//        System.out.println(methods.areKAnagrams("wurkbxkgkfmlzofn","mczujslxzvhecrpy",10));
+//        System.out.println(methods.checkPangram("Bawds jog, flick quartz, vex nymph"));
+        System.out.println(methods.revesreWithM("important",4));
     }
 
     @Override
@@ -280,4 +285,202 @@ public class StringQuestions implements stringMethods{
 
         return mn;
     }
-}
+
+    @Override
+    public int isDivisibleby7(String num){
+        //last visit 19/11
+        //here 0 is 48
+        int rem = num.charAt(0) - '0';
+        //we will first get the value of remainder
+        for(int i=1;i<num.length();i++)
+        {
+            //learning part
+            //then for each remainder we will accumulate the remainder and get further reaminder
+            rem = rem % 7;
+            //then we will multiply the remainder by 10 and add the new digit
+            rem = rem*10 + (num.charAt(i) - '0');
+        }
+        return rem%7 == 0 ? 1 : 0;
+
+        //another way
+//        java.math.BigInteger bi =new java.math.BigInteger(num);
+//        bi=bi.mod(java.math.BigInteger.valueOf(7));
+//        if(bi.intValue()==0)
+//            return 1;
+//        return 0;
+    }
+
+    @Override
+    public String encryptString(String s){
+        // code here
+        //last visit 19/11
+        String res="";
+        int n=s.length();
+        for(int i=0; i<n; i++){
+
+            int c=1;
+            //till next index is less then n and both the characters at indexes are same
+            while(i+1<n && s.charAt(i)==s.charAt(i+1)){
+                //we increment the count of that character
+                //and move further i till we get the different character
+                c++; i++;
+            }
+            //to hex string converts integer to hex string
+            String hex=Integer.toHexString(c);
+
+            //then we save the character at i to result
+            res=res+s.charAt(i);
+
+            //we strore the hex value to string buffer
+            StringBuffer b=new StringBuffer(hex);
+            //we reverse it
+            b.reverse();
+
+            //the we return after appending it
+            res=res+b.toString();
+        }
+        StringBuffer bf=new StringBuffer(res);
+        bf.reverse();
+        return bf.toString();
+    }
+
+    @Override
+    public long countSubEqualPoint(String str) {
+        // Your code goes here
+        // Your code goes here
+        //last visit 19/11
+        int open[]=new int[str.length()];
+        int close[]=new int[str.length()];
+        if(str.length()==1){
+            if(str.charAt(0)==')') return 1;
+            return 0;
+        }
+
+        int o=0,c=0;
+        for(int i=0; i<str.length(); i++){
+            if(str.charAt(i)=='(') {
+                open[i] = ++o;
+            }
+            open[i]=o;
+        }
+        for(int i=str.length()-1; i>=0; i--){
+            if(str.charAt(i)==')'){
+                close[i] = ++c;
+            }
+            close[i]=c;
+        }
+        for(int i=1; i<str.length(); i++){
+            if(open[i-1]==close[i])
+            {
+
+                return i;
+            }
+        }
+        return str.length();
+    }
+
+    @Override
+    public  boolean areIsomorphicStrings(String str1, String str2)
+    {
+        // Your code here
+        //last visited 19/11
+        int n = str1.length();
+        int m = str2.length();
+
+        //if length doesnot match then return false;
+        if (n != m)
+            return false;
+
+        int[] c1 = new int[26];
+        int[] c2 = new int[26];
+
+        //we will find the count of characters
+        for (int i = 0; i < n; i++) {
+            c1[str1.charAt(i) - 'a']++;
+            c2[str2.charAt(i) - 'a']++;
+
+
+            //if for one to one the mapping count is not same then we simply return false
+            if (c1[str1.charAt(i) - 'a']
+                    != c2[str2.charAt(i) - 'a']) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public boolean areKAnagrams(String s1, String s2, int k) {
+        // code here
+        //last visited 19/11
+
+        int n1=s1.length(),n2=s2.length();
+        if(n1!=n2)
+            return false;
+
+        //we will create a hashmap
+        HashMap <Character,Integer> h=new HashMap<>();
+
+        //we will count each character of s1
+        for(int i=0; i<n1; i++){
+            char c=s1.charAt(i);
+            h.put(c,h.getOrDefault(c,0)+1 );
+        }
+        for(int i=0; i<n2; i++){
+            char c=s2.charAt(i);
+            //if we get the chracter already present then we reduce the count
+            if(h.getOrDefault(c,0 )>0)
+                h.put(c,h.get(c)-1 );
+        }
+        int count=0;
+        //for each chracter we get the count thats how we get different count
+        for(char c: h.keySet()){
+            count+=h.get(c);
+        }
+        if(count>k)
+            return false;
+        return true;
+
+    }
+
+    @Override
+    public  boolean checkPangram  (String str) {
+        // your code here
+        //we create a int array of every chracter and reduce by a
+        //then in the last loop we check if any one has 0 or not;
+
+        str=str.toUpperCase();
+        //we just check if the values we ae expecting
+        for(char i='A';i<='Z';i++)
+        {
+            //we will check in the stringPool the literal is available
+            if(!str.contains(String.valueOf(i)))
+                return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String revesreWithM(String s, int m){
+        char[] c = s.toCharArray();
+        int start=0;
+        int end = m-1<s.length()-1?m:s.length()-1;
+        int left=m-end;
+        while(start<end){
+            char temp = c[start];
+            c[start] = c[end];
+            c[end] = temp;
+            start++;
+            end--;
+        }
+        start=0;
+        while(start<left){
+            char temp = c[start];
+            c[start] = c[left];
+            c[left] = temp;
+            start++;
+            left--;
+        }
+        return new String(c);
+    }
+    }

@@ -5,8 +5,90 @@ import java.lang.*;
 import java.io.*;
 
 /* Name of the class has to be "Main" only if the class is public. */
+
+class InputReader {
+    private InputStream stream;
+    private byte[] buf = new byte[1024];
+
+    private int curChar;
+
+    private int numChars;
+
+    public InputReader(InputStream stream) {
+        this.stream = stream;
+    }
+
+    public int read() {
+        if (numChars == -1)
+            throw new RuntimeException();
+        if (curChar >= numChars) {
+            curChar = 0;
+            try {
+                numChars = stream.read(buf);
+            } catch (IOException e) {
+                throw new RuntimeException();
+            }
+            if (numChars <= 0)
+                return -1;
+        }
+        return buf[curChar++];
+    }
+
+    public String readString() {
+        final StringBuilder stringBuilder = new StringBuilder();
+        int c = read();
+        while (isSpaceChar(c))
+            c = read();
+        do {
+            stringBuilder.append(c);
+            c = read();
+        } while (!isSpaceChar(c));
+        return stringBuilder.toString();
+    }
+
+    public int readInt() {
+        int c = read();
+        while (isSpaceChar(c))
+            c = read();
+        int sgn = 1;
+        if (c == '-') {
+            sgn = -1;
+            c = read();
+        }
+        int res = 0;
+        do {
+            res *= 10;
+            res += c - '0';
+            c = read();
+        } while (!isSpaceChar(c));
+        return res * sgn;
+    }
+
+    public long readLong() {
+        int c = read();
+        while (isSpaceChar(c))
+            c = read();
+        int sgn = 1;
+        if (c == '-') {
+            sgn = -1;
+            c = read();
+        }
+        long res = 0;
+        do {
+            res *= 10;
+            res += c - '0';
+            c = read();
+        } while (!isSpaceChar(c));
+        return res * sgn;
+    }
+
+    public boolean isSpaceChar(int c) {
+        return c == ' ' || c == '\n' || c == '\r' || c == '\t' || c == -1;
+    }
+}
 class Codechef
 {
+
     static ArrayList<Long> recurr(ArrayList<Long> arr, long end){
         int an=0;
         if(end==1) return arr;
@@ -82,6 +164,34 @@ class Codechef
                 System.out.println("YES");
             }
         }
+    }
+}
+class CodeChefDec{
+    static void UTKPLC() throws IOException {
+        Scanner sc = new Scanner(System.in);
+        int t=sc.nextInt();
+        sc.nextLine();    // Ignore the next line char
+        while(t-->0){
+//            BufferedReader obj = new BufferedReader(new InputStreamReader(System.in));
+            String a = sc.nextLine();
+            String b= sc.nextLine();
+            a=a.replaceAll(" ","");
+            b=b.replaceAll(" ","");
+            int minIdx=Integer.MAX_VALUE;
+           for(int i=0; i<b.length(); i++){
+               for (int j=0; j<a.length(); j++){
+                if(b.charAt(i)==a.charAt(j)){
+                    minIdx = Math.min(minIdx, j);
+                }
+               }
+           }
+            System.out.println(a.charAt(minIdx));
+//           sc.nextLine();
+           }
+
+    }
+    public static void main(String[] args) throws IOException {
+        UTKPLC();
     }
 }
 class CodeChefNov{
@@ -550,4 +660,5 @@ class CodeChefNov{
 
         }
     }
+
 
