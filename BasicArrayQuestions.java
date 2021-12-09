@@ -656,3 +656,34 @@ class pair
         this.second = second;
     }
 }
+
+class arraylevel2 implements ArrayIntermediate{
+    @Override
+    public int missingInteger(){
+        Scanner sc=new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] a = new int[n];
+        for(int i=0; i<n; i++){
+            a[i] = sc.nextInt();
+        }
+//        int arrSum=Arrays.stream(arr).sum();
+        int x1 = a[0];
+        int x2 = 1;
+
+        /* For xor of all the elements
+           in array */
+        for (int i = 1; i < n; i++)
+            x1 = x1 ^ a[i];
+
+        /* For xor of all the elements
+           from 1 to n+1 */
+        for (int i = 2; i <= n + 1; i++)
+            x2 = x2 ^ i;
+
+        return (x1 ^ x2);
+    }
+    public static void main(String[] args) {
+        ArrayIntermediate a = new arraylevel2();
+        a.missingInteger();
+    }
+}

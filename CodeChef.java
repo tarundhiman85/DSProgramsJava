@@ -1,10 +1,7 @@
-/* package codechef; // don't place package name! */
 
 import java.util.*;
 import java.lang.*;
 import java.io.*;
-
-/* Name of the class has to be "Main" only if the class is public. */
 
 class InputReader {
     private InputStream stream;
@@ -88,7 +85,6 @@ class InputReader {
 }
 class Codechef
 {
-
     static ArrayList<Long> recurr(ArrayList<Long> arr, long end){
         int an=0;
         if(end==1) return arr;
@@ -143,30 +139,87 @@ class Codechef
 
         return recurr(arr,i-2);
     }
-
-    public static void main (String[] args) throws java.lang.Exception
-    {
-        // your code goes here
-        Scanner sc = new Scanner(System.in);
-        long t=sc.nextLong();
+    static void SellCars(){
+        InputReader ir = new InputReader(System.in);
+        long M = 1000000007;
+        int t = ir.readInt();
         while(t-->0){
-            long n=sc.nextLong();
-            ArrayList<Long> arr = new ArrayList<Long>();
-            long k = (long) Math.pow(2, (double) n);
-            for(long i=0; i<k; i++){
-                arr.add(sc.nextLong());
+            int n=ir.readInt();
+            PriorityQueue<Long> pq = new PriorityQueue<>(Collections.reverseOrder());
+            for(int i=0; i<n; i++){
+                long x = ir.readLong();
+                pq.add(x);
             }
-            Collections.sort(arr);
-            if((recurr(arr,arr.size())).size()==0){
-                System.out.println("NO");
+            long maxProfit=0;
+            long reducer=0;
+            while(!pq.isEmpty()){
+                long ele = pq.peek();
+                if((ele-reducer)>0){
+                    maxProfit+=(ele-reducer);
+                    maxProfit=maxProfit%M;
+                    pq.poll();
+                }
+                else{
+                    pq.poll();
+                }
+                reducer++;
             }
-            else{
-                System.out.println("YES");
-            }
+            System.out.println(maxProfit);
         }
     }
+    static void ChefNWrk(){
+        InputReader ir = new InputReader(System.in);
+        int t = ir.readInt();
+        while(t-->0){
+            int n = ir.readInt();
+            int k = ir.readInt();
+            int [] arr = new int[n];
+            int round=1;
+            int lifted=0;
+            for(int i=0; i<n; i++){
+                arr[i] = ir.readInt();
+            }
+            for(int i=0; i<n; i++)
+            {
+                if(arr[i]>k){
+                    round=-1;
+                    break;
+                }
+                lifted = lifted +  arr[i];
+                if(lifted>k){
+                    lifted=arr[i];
+                    round++;
+                }
+            }
+            System.out.println(round);
+        }
+    }
+
+    public static void main (String[] args) throws java.lang.Exception {
+    ChefNWrk();
+    }
+//        // your code goes here
+//        Scanner sc = new Scanner(System.in);
+//        long t=sc.nextLong();
+//        while(t-->0){
+//            long n=sc.nextLong();
+//            ArrayList<Long> arr = new ArrayList<Long>();
+//            long k = (long) Math.pow(2, (double) n);
+//            for(long i=0; i<k; i++){
+//                arr.add(sc.nextLong());
+//            }
+//            Collections.sort(arr);
+//            if((recurr(arr,arr.size())).size()==0){
+//                System.out.println("NO");
+//            }
+//            else{
+//                System.out.println("YES");
+//            }
+//        }
+//    }
 }
 class CodeChefDec{
+
     static void UTKPLC() throws IOException {
         Scanner sc = new Scanner(System.in);
         int t=sc.nextInt();
@@ -190,8 +243,62 @@ class CodeChefDec{
            }
 
     }
+    static void LISTLIST() throws IOException {
+        InputReader sc = new InputReader(System.in);
+        int t = sc.readInt();
+        while (t-- > 0) {
+            int n = sc.readInt();
+            Map<Integer, Integer> m = new HashMap();
+            for (int i = 0; i < n; i++) {
+                int el = sc.readInt();
+                if (!m.containsKey(el)) {
+                    m.put(el, 1);
+                } else {
+                    m.put(el, m.get(el) + 1);
+                }
+            }
+            int maxfreq = 0;
+            for (Map.Entry<Integer, Integer> entry : m.entrySet()) {
+                //find the maxfreq frequency
+                maxfreq = maxfreq > entry.getValue() ? maxfreq : entry.getValue();
+            }
+            if (n == 1 || maxfreq == n) System.out.println(0);
+            else if (maxfreq >= 2) System.out.println(n - maxfreq + 1);
+            else System.out.println(-1);
+        }
+    }
+    static void valleyHills() throws  IOException{
+        InputReader sc =new InputReader(System.in);
+        int t=sc.readInt();
+        while(t-->0){
+            int n,m;
+            StringBuilder s = new StringBuilder();
+            n=sc.readInt();
+            m=sc.readInt();
+            if(n>m) {
+                n=n-m;
+                while (m-- > 0) s.append("01");
+                while (n-- > 0) s.append("010");
+            }
+            else if(m>n){
+                m=m-n;
+                while(n-->0) s.append("10");
+                while(m-->0) s.append("101");
+            }
+            else{
+                while(n+1!=0){
+                    s.append("01");
+                    n--;
+                }
+            }
+            System.out.println(s.length());
+            System.out.println(s);
+        }
+    }
     public static void main(String[] args) throws IOException {
-        UTKPLC();
+//        UTKPLC();
+//        LISTLIST();
+        valleyHills();
     }
 }
 class CodeChefNov{

@@ -11,4 +11,12 @@ public interface DP {
     int minStepToDeleteString(String a);
 
     int rodCutting(int[] prices);
+
+    void countHops();
+
+    void gridpaths();
+
+    void arrayDescription();
+
+    void bookShop();
 }
